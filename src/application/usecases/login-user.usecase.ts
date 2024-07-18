@@ -15,12 +15,11 @@ export class LoginUserUseCase {
 
   async run(email: string, password: string): Promise<{ user: UserDto; token: string }> {
     const user = await this.userRepository.findByEmail(email);
-    await this.loggingService.logAction('GET', 'User', user.userId, user.userId, JSON.stringify(user));
 
     if (user && await bcrypt.compare(password, user.password)) {
       const userDto = new UserDto(user.userId, user.email);
       const token = await this.authService.generateJwt(userDto);
-
+      await this.loggingService.logAction('GET', 'User', user.userId, user.userId, JSON.stringify(user));
       return { user: userDto, token };
     }
 
