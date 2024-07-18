@@ -14,6 +14,15 @@ export class UpdateTaskUseCase {
   async run(uuid: string, updateTaskDto: UpdateTaskDto, userId: string) {
     const task = await this.taskRepository.getTask(uuid, userId);
     if (!task) {
+      if (updateTaskDto.file) {
+        const newFilePath = join(__dirname, '../../../uploads', updateTaskDto.file);
+        try {
+          await unlinkAsync(newFilePath);
+        } catch (error) {
+          console.error('Error deleting new file:', error);
+          throw error;
+        }
+      }
       throw new NotFoundException('Task not found');
     }
 
@@ -23,10 +32,11 @@ export class UpdateTaskUseCase {
         await unlinkAsync(oldFilePath);
       } catch (error) {
         console.error('Error deleting old file:', error);
+        throw error;
       }
     }
 
-    const updatedTask = await this.taskRepository.editTask(uuid, updateTaskDto, userId);
+    const updatedTask = await this.taskRepository.editTask(uuid, updateTaskDto);
     return updatedTask;
   }
 }

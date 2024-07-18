@@ -1,0 +1,387 @@
+{
+	"info": {
+		"_postman_id": "75d9dc43-cb1c-457b-bc63-8d084c3c70e7",
+		"name": "Task-Managment",
+		"description": "**Nombre de la Colección**: Task-Managment\n\n**Descripción**:  \nBienvenido a la colección de la API de Gestión de Tareas. Esta API permite a los usuarios gestionar sus tareas de manera efectiva proporcionando endpoints para crear, leer, actualizar y eliminar tareas. La API está protegida con autenticación JWT, asegurando que solo los usuarios autenticados puedan realizar acciones sobre sus tareas. Además, la API registra todas las acciones realizadas para fines de auditoría.\n\nLa colección está organizada en dos carpetas principales:\n\n1. **Usuarios**: Esta carpeta contiene los endpoints relacionados con el registro y el inicio de sesión de usuarios.\n    \n2. **Tareas**: Esta carpeta contiene los endpoints para gestionar tareas, incluyendo crear, actualizar, eliminar, buscar y descargar archivos relacionados con las tareas.\n    \n\nPor favor, asegúrese de configurar correctamente las variables de entorno y tener su token JWT listo para acceder a las rutas protegidas.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23274593"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test2@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"register"
+							]
+						},
+						"description": "#### Folder: Users\n\n##### Request: Register User\n\n- **URL**: `http://localhost:3000/users/register`\n    \n- **Method**: `POST`\n    \n- **Description**: Registra un nuevo usuario en el sistema.\n    \n\n###### Possible Responses\n\n- **Conflict (409): Email already exists**\n    \n\n``` json\n{\n    \"message\": \"Email already exists\",\n    \"error\": \"Conflict\",\n    \"statusCode\": 409\n}\n\n ```\n\n- **Success (201): User registered successfully**\n    \n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"data\": {\n        \"email\": \"test1@example.com\"\n    }\n}\n\n ```\n\n- **Bad Request(400): Invalid Form Data**\n    \n\n``` json\n{\n    \"message\": [\n        \"email must be an email\",\n        \"password must be longer than or equal to 6 characters\"\n    ],\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "#### Folder: Users\n\n##### Request: Login User\n\n- **URL**: `http://localhost:3000/users/login`\n    \n- **Method**: `POST`\n    \n- **Description**: Autentica a un usuario y devuelve un token JWT si las credenciales son correctas.\n    \n\n###### Possible Responses\n\n- **Success (200): Login successful**\n    \n\n``` json\n{\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"user\": {\n            \"uuid\": \"892532d2-8e7c-4362-a06f-f9ec12232c92\",\n            \"email\": \"test@example.com\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzM0NzksImV4cCI6MTcyMTI3NzA3OX0.VwJ_BnAa2VSRejs6qRMMPrvJabX_eR8Plw9HU_u8W5k\"\n    }\n}\n\n ```\n\n- **Bad Request (400): Validation errors**\n    \n\n``` json\n{\n    \"message\": [\n        \"email must be an email\",\n        \"password must be longer than or equal to 6 characters\",\n        \"password must be a string\"\n    ],\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```\n\n- **Unauthorized (401): Invalid credentials**\n    \n\n``` json\n{\n    \"message\": \"Invalid credentials\",\n    \"error\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "**Nombre de la Carpeta**: Users\n\n**Descripción**:  \nLa carpeta de Usuarios contiene los endpoints relacionados con la gestión de usuarios. Estos endpoints permiten a los usuarios registrarse e iniciar sesión en el sistema de Gestión de Tareas. El inicio de sesión exitoso proporciona un token JWT que es necesario para acceder a los endpoints de gestión de tareas.\n\n**Endpoints**:\n\n1. **Register User**: Permite a un nuevo usuario registrarse.\n    \n2. **Login User**: Permite a un usuario existente iniciar sesión y recibir un token JWT."
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Create Task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzg0NDksImV4cCI6MTcyMTI4MjA0OX0.G0-6lSPDPuK_wzmH2kbrf7TfrZKj469HshEVhtoEMKs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Task Title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Task Description",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "PENDING",
+									"type": "text"
+								},
+								{
+									"key": "dueDate",
+									"value": "2024-07-16T23:59:59.000Z",
+									"type": "text"
+								},
+								{
+									"key": "comments",
+									"value": "Some comments",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "tag1, tag2",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1ef4389f-fd75-4f60-85bf-eb7881b6e5a3"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/tasks/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"create"
+							]
+						},
+						"description": "#### Folder: Tasks\n\n##### Request: Create Task\n\n- **URL**: `http://localhost:3000/tasks/create`\n    \n- **Method**: `POST`\n    \n- **Description**: Crea una nueva tarea para el usuario autenticado. Esta ruta está protegida y requiere un token JWT válido.\n    \n\n###### Headers\n\n``` json\n{\n    \"Authorization\": \"Bearer your_jwt_token\"\n}\n\n ```\n\n###### Possible Responses\n\n- **Unauthorized (401): JWT token missing or invalid**\n    \n\n``` json\n{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```\n\n- **Success (201): Task created successfully**\n    \n\n``` json\n{\n    \"message\": \"Task created successfully\",\n    \"data\": {\n        \"uuid\": \"fff4dabe-8f5e-4e13-af71-80bb93f1a12d\",\n        \"title\": \"Task Title\",\n        \"description\": \"Task Description\",\n        \"status\": \"PENDING\",\n        \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n        \"comments\": \"Some comments\",\n        \"tags\": [\n            \"tag1\",\n            \"tag2\"\n        ],\n        \"file\": \"file-1721273916644-408521671.pdf\",\n        \"createdBy\": {\n            \"email\": \"test@example.com\"\n        }\n    }\n}\n\n ```\n\n- **Bad Request (400): Validation errors**\n    \n\n``` json\n{\n    \"message\": [\n        \"title should not be empty\",\n        \"title must be a string\",\n        \"description should not be empty\",\n        \"description must be a string\"\n    ],\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzQxNzUsImV4cCI6MTcyMTI3Nzc3NX0.hk101j3By_cMC3wUbwjSXETjEdfiZIJY9hx3fr0TjHY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tasks?page=1&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "#### Folder: Tasks\n\n##### Request: Get All Tasks\n\n- **URL**: `http://localhost:3000/tasks?page=1&limit=10`\n    \n- **Method**: `GET`\n    \n- **Description**: Obtiene todas las tareas para el usuario autenticado con soporte de paginación. Esta ruta está protegida y requiere un token JWT válido.\n    \n\n###### Headers\n\n``` json\n{\n    \"Authorization\": \"Bearer your_jwt_token\"\n}\n\n ```\n\n###### Query Parameters\n\n- **page**: El número de página que se desea obtener.\n    \n- **limit**: El número de tareas que se desea obtener por página.\n    \n\n###### Possible Responses\n\n- **Unauthorized (401): JWT token missing or invalid**\n    \n\n``` json\n{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```\n\n- **Success (200): Tasks retrieved successfully (with tasks, example)**\n    \n\n``` json\n{\n    \"message\": \"Tasks retrieved successfully\",\n    \"data\": {\n        \"tasks\": [\n            {\n                \"uuid\": \"6163258b-a867-4f93-906a-b02e75712263\",\n                \"title\": \"Task Title\",\n                \"description\": \"Task Description\",\n                \"status\": \"PENDING\",\n                \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n                \"comments\": \"Some comments\",\n                \"tags\": [\n                    \"tag1\",\n                    \"tag2\"\n                ],\n                \"file\": \"file-1721273935709-619764863.pdf\",\n                \"createdBy\": {\n                    \"email\": \"test@example.com\"\n                }\n            },\n            {\n                \"uuid\": \"92832922-5537-422b-83f7-ec57a0a75bf7\",\n                \"title\": \"Task Title\",\n                \"description\": \"Task Description\",\n                \"status\": \"PENDING\",\n                \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n                \"comments\": \"Some comments\",\n                \"tags\": [\n                    \"tag1\",\n                    \"tag2\"\n                ],\n                \"file\": \"file-1721273952750-437747571.pdf\",\n                \"createdBy\": {\n                    \"email\": \"test@example.com\"\n                }\n            },\n            {\n                \"uuid\": \"fd899626-40ed-42d8-a835-592adf201128\",\n                \"title\": \"Task Title\",\n                \"description\": \"Task Description\",\n                \"status\": \"PENDING\",\n                \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n                \"comments\": \"Some comments\",\n                \"tags\": [\n                    \"tag1\",\n                    \"tag2\"\n                ],\n                \"file\": \"file-1721266115975-30859566.pdf\",\n                \"createdBy\": {\n                    \"email\": \"test@example.com\"\n                }\n            },\n            {\n                \"uuid\": \"fff4dabe-8f5e-4e13-af71-80bb93f1a12d\",\n                \"title\": \"Task Title\",\n                \"description\": \"Task Description\",\n                \"status\": \"PENDING\",\n                \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n                \"comments\": \"Some comments\",\n                \"tags\": [\n                    \"tag1\",\n                    \"tag2\"\n                ],\n                \"file\": \"file-1721273916644-408521671.pdf\",\n                \"createdBy\": {\n                    \"email\": \"test@example.com\"\n                }\n            }\n        ],\n        \"total\": 4\n    }\n}\n\n ```\n\n- **Success (200): Tasks retrieved successfully (no tasks)**\n    \n\n``` json\n{\n    \"message\": \"Tasks retrieved successfully\",\n    \"data\": {\n        \"tasks\": [],\n        \"total\": 0\n    }\n}\n\n\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task By UUID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzQxNzUsImV4cCI6MTcyMTI3Nzc3NX0.hk101j3By_cMC3wUbwjSXETjEdfiZIJY9hx3fr0TjHY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tasks/2e40e392-f01f-4c1c-8a50-66159b7e2402",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"2e40e392-f01f-4c1c-8a50-66159b7e2402"
+							]
+						},
+						"description": "#### Folder: Tasks\n\n##### Request: Get Task by UUID\n\n- **URL**: `http://localhost:3000/tasks/:uuid`\n    \n- **Method**: `GET`\n    \n- **Description**: Obtiene toda la información de una tarea específica para el usuario autenticado. Esta ruta está protegida y requiere un token JWT válido.\n    \n\n###### Headers\n\n``` json\n{\n    \"Authorization\": \"Bearer your_jwt_token\"\n}\n\n ```\n\n###### Path Parameters\n\n- **uuid**: El UUID de la tarea que se desea obtener.\n    \n\n###### Possible Responses\n\n- **Unauthorized (401): JWT token missing or invalid**\n    \n\n``` json\n{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```\n\n- **Not Found (404): Task not found**\n    \n\n``` json\n{\n    \"message\": \"Task not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}\n\n ```\n\n- **Success (200): Task retrieved successfully**\n    \n\n``` json\n{\n    \"message\": \"Task retrieved successfully\",\n    \"data\": {\n        \"uuid\": \"2e40e392-f01f-4c1c-8a50-66159b7e2402\",\n        \"title\": \"Task Title\",\n        \"description\": \"Task Description\",\n        \"status\": \"PENDING\",\n        \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n        \"comments\": \"Some comments\",\n        \"tags\": [\n            \"tag1\",\n            \"tag2\"\n        ],\n        \"file\": \"file-1721275008331-993160326.pdf\",\n        \"createdBy\": {\n            \"email\": \"test@example.com\"\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Download File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzQxNzUsImV4cCI6MTcyMTI3Nzc3NX0.hk101j3By_cMC3wUbwjSXETjEdfiZIJY9hx3fr0TjHY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tasks/download/2e40e392-f01f-4c1c-8a50-66159b7e2402",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"download",
+								"2e40e392-f01f-4c1c-8a50-66159b7e2402"
+							]
+						},
+						"description": "#### Folder: Tasks\n\n##### Request: Download Task File\n\n- **URL**: `http://localhost:3000/tasks/download/:uuid`\n    \n- **Method**: `GET`\n    \n- **Description**: Descarga el archivo adjunto de una tarea específica para el usuario autenticado. Esta ruta está protegida y requiere un token JWT válido.\n    \n\n###### Headers\n\n``` json\n{\n    \"Authorization\": \"Bearer your_jwt_token\"\n}\n\n ```\n\n###### Path Parameters\n\n- **uuid**: El UUID de la tarea cuyo archivo se desea descargar.\n    \n\n###### Possible Responses\n\n- **Unauthorized (401): JWT token missing or invalid**\n    \n\n``` json\n{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```\n\n- **Not Found (404): File not found**\n    \n\n``` json\n{\n    \"message\": \"File not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}\n\n ```\n\n- **Success (200): File downloaded**\n    \n\nSi el archivo existe, se descargará automáticamente en el navegador. El código de estado será 200, pero la respuesta contendrá el archivo en lugar de un cuerpo JSON."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzY0MjcsImV4cCI6MTcyMTI4MDAyN30.iUkzXDy7HB2fkYY-Rx0Y5uLSsMgBjYpZ0TdTX0gTQPc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tasks/df693ef4-41ca-4fb2-a72a-9aba0b5ca785",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"df693ef4-41ca-4fb2-a72a-9aba0b5ca785"
+							]
+						},
+						"description": "### Folder: Tasks\n\n### Request: Delete Task\n\n- **URL**: `http://localhost:3000/tasks/:uuid`\n    \n- **Method**: `DELETE`\n    \n- **Description**: Permite a los usuarios autenticados eliminar una tarea existente. Esta ruta está protegida y requiere un token JWT válido.\n    \n\n#### Headers\n\n``` json\n{\n    \"Authorization\": \"Bearer your_jwt_token\",\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n#### Path Parameters\n\n- `uuid`: El UUID de la tarea que se desea eliminar.\n    \n\n#### Possible Responses\n\n- **Unauthorized (401): JWT token missing or invalid**\n    \n\n``` json\n{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```\n\n- **Not Found (404): Task not found**\n    \n\n``` json\n{\n    \"message\": \"Task not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}\n\n ```\n\n- **Success (200): Task deleted successfully**\n    \n\n``` json\n{\n    \"message\": \"Task deleted successfully\",\n    \"data\": null\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzg0NDksImV4cCI6MTcyMTI4MjA0OX0.G0-6lSPDPuK_wzmH2kbrf7TfrZKj469HshEVhtoEMKs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "tags",
+									"value": "tag1, tag2",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1ef43daf-32b0-48b0-b2ef-24fa48100dd8"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/tasks/015b1b69-2fc0-44da-88fe-1af039dadce2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"015b1b69-2fc0-44da-88fe-1af039dadce2"
+							]
+						},
+						"description": "### Folder: Tasks\n\n### Request: Update Task\n\n- **URL**: `http://localhost:3000/tasks/:uuid`\n    \n- **Method**: `PUT`\n    \n- **Description**: Permite a los usuarios autenticados actualizar una tarea existente. Esta ruta está protegida y requiere un token JWT válido.\n    \n\n#### Headers\n\n``` json\n{\n    \"Authorization\": \"Bearer your_jwt_token\",\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n#### Possible Responses\n\n- **Unauthorized (401): JWT token missing or invalid**\n    \n\n``` json\n{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```\n\n- **Not Found (404): Task not found**\n    \n\n``` json\n{\n    \"message\": \"Task not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}\n\n ```\n\n- **Success (200): Task updated successfully**\n    \n\n``` json\n{\n    \"message\": \"Task updated successfully\",\n    \"data\": {\n        \"uuid\": \"015b1b69-2fc0-44da-88fe-1af039dadce2\",\n        \"title\": \"Task Title\",\n        \"description\": \"Task Description\",\n        \"status\": \"PENDING\",\n        \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n        \"comments\": \"Some comments\",\n        \"tags\": [\n            \"tag1\",\n            \"tag2\"\n        ],\n        \"file\": \"file-1721276254229-299159834.pdf\",\n        \"createdBy\": {\n            \"email\": \"test@example.com\"\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTI1MzJkMi04ZTdjLTQzNjItYTA2Zi1mOWVjMTIyMzJjOTIiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEyNzQxNzUsImV4cCI6MTcyMTI3Nzc3NX0.hk101j3By_cMC3wUbwjSXETjEdfiZIJY9hx3fr0TjHY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"keyword\": \"Task\",\r\n  \"status\": \"PENDING\",\r\n  \"daysRemaining\": 10,\r\n  \"fileFormat\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tasks/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"search"
+							]
+						},
+						"description": "### Folder: Tasks\n\n### Request: Search Tasks\n\n- **URL**: `http://localhost:3000/tasks/search`\n    \n- **Method**: `POST`\n    \n- **Description**: Permite a los usuarios autenticados buscar tareas basadas en palabra clave, estatus de compleción, días restantes para vencimiento y formato de archivo. Esta ruta está protegida y requiere un token JWT válido.\n    \n\n###### Headers\n\n``` json\n{\n    \"Authorization\": \"Bearer your_jwt_token\",\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n###### Possible Responses\n\n- **Unauthorized (401): JWT token missing or invalid**\n    \n\n``` json\n{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}\n\n ```\n\n- **Success (200): No tasks found**\n    \n\n``` json\n{\n    \"message\": \"Tasks found successfully\",\n    \"data\": []\n}\n\n ```\n\n- **Success (200): Tasks found**\n    \n\n``` json\n{\n    \"message\": \"Tasks found successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"015b1b69-2fc0-44da-88fe-1af039dadce2\",\n            \"title\": \"Task Title\",\n            \"description\": \"Task Description\",\n            \"status\": \"PENDING\",\n            \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n            \"comments\": \"Some comments\",\n            \"tags\": [\n                \"tag1\",\n                \"tag2\"\n            ],\n            \"file\": \"file-1721275764315-244844638.pdf\",\n            \"weight\": 4,\n            \"createdBy\": null\n        },\n        {\n            \"uuid\": \"1de7b448-592c-4bfa-96e5-aedc1789a5df\",\n            \"title\": \"Task Title\",\n            \"description\": \"Task Description\",\n            \"status\": \"PENDING\",\n            \"dueDate\": \"2024-07-16T23:59:59.000Z\",\n            \"comments\": \"Some comments\",\n            \"tags\": [\n                \"tag1\",\n                \"tag2\"\n            ],\n            \"file\": \"file-1721275774441-460167016.pdf\",\n            \"weight\": 4,\n            \"createdBy\": null\n        }\n    ]\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "**Nombre de la Carpeta**: Tasks\n\n**Descripción**:  \nLa carpeta de Tasks contiene los endpoints para gestionar tareas. Estos endpoints permiten a los usuarios autenticados crear, leer, actualizar, eliminar, buscar y descargar tareas y sus archivos asociados. Asegúrese de tener un token JWT válido para acceder a estos endpoints.\n\n**Endpoints**:\n\n1. **Create Task**: Permite a un usuario autenticado crear una nueva tarea.\n    \n2. **Get All Tasks**: Recupera una lista de todas las tareas del usuario autenticado con soporte de paginación.\n    \n3. **Get Task By UUID**: Recupera información detallada sobre una tarea específica utilizando su UUID.\n    \n4. **Update Task**: Permite a un usuario autenticado actualizar una tarea existente.\n    \n5. Delete Task: Permite a un usuario autenticado eliminar una tarea.\n    \n6. **Buscar Tareas**: Permite a un usuario autenticado buscar tareas basadas en varios criterios.\n    \n7. **Download File**: Permite a un usuario autenticado descargar el archivo asociado con una tarea.\n    \n\nAsegúrese de verificar las variables de entorno y utilizar el token JWT adecuado para las solicitudes autenticadas. Los formatos de solicitud y respuesta de cada endpoint están documentados para su referencia."
+		}
+	]
+}

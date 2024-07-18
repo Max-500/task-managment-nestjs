@@ -58,13 +58,10 @@ export class TypeOrmTaskRepository implements ITaskRepository {
     return { tasks, total };
   }
 
-  async editTask(uuid: string, task: Partial<Task>, userId: string): Promise<Task> {
+  async editTask(uuid: string, task: Partial<Task>): Promise<Task> {
     try {
       await this.taskRepository.update(uuid, task);
       const updatedTask = await this.getTask(uuid, task.userUUID);
-
-      await this.loggingService.logAction('UPDATE', 'Task', uuid, userId, JSON.stringify(task));
-
       return updatedTask;
     } catch (error) {
       console.error('Error editing task:', error);
