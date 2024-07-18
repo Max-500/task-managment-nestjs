@@ -34,7 +34,7 @@ Primero, clona el repositorio y navega al directorio del proyecto:
 
 ```bash
 git clone https://github.com/Max-500/task-managment-nestjs.git
-cd task-managment
+cd task-managment-nestjs
 npm install
 mv .env.template .env
 ```
